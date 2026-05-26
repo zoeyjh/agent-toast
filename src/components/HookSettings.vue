@@ -237,7 +237,7 @@ function copyCopilotCmd() {
           <button
             type="button"
             class="self-start text-xs text-muted-foreground/70 hover:text-foreground transition-colors duration-100 flex items-center gap-1"
-            @click="openUrl('https://github.com/hopoduck/agent-toast/blob/main/docs/copilot-integration.md')"
+            @click="openUrl('https://github.com/zoeyjh/agent-toast/blob/feat/copilot-support/docs/copilot-integration.md')"
           >
             {{ t("hooks.copilot_docs_link") }}
           </button>
