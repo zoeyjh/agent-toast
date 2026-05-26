@@ -24,6 +24,10 @@ pub struct Cli {
     #[arg(long)]
     pub title: Option<String>,
 
+    /// Source agent identifier (claude, codex, copilot). Controls toast icon.
+    #[arg(long, default_value = "claude")]
+    pub source: String,
+
     /// Start as background daemon (no notification)
     #[arg(long)]
     pub daemon: bool,

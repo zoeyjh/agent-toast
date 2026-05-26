@@ -257,7 +257,7 @@ fn main() {
         message: args.message,
         title_hint,
         process_tree: Some(process_tree),
-        source: "claude".into(),
+        source: args.source,
         hostname: None,
     };
 
