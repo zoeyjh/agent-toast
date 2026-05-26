@@ -40,6 +40,7 @@
 | ---------------------------------------------------- | ------------------------------------ |
 | [Claude Code](https://www.anthropic.com/claude-code) | Anthropic's AI coding assistant      |
 | [Codex CLI](https://openai.com/codex/)               | OpenAI's terminal-based coding agent |
+| [GitHub Copilot CLI](https://cli.github.com/)        | GitHub's AI coding assistant (via shell wrapper) |
 
 ## 📥 Installation
 
@@ -124,6 +125,20 @@ Enable desired events in the settings window to automatically register hooks.
 | Claude Code | `~/.claude/settings.json` |
 | Codex CLI   | `~/.codex/config.toml`    |
 
+### GitHub Copilot CLI Integration
+
+Copilot CLI has no built-in hook system. Use a PowerShell wrapper function instead.
+
+```powershell
+# Add to $PROFILE
+function copilot {
+    gh copilot @args
+    agent-toast.exe --source copilot --event task_complete --pid $PID
+}
+```
+
+See [docs/copilot-integration.md](docs/copilot-integration.md) for the full setup guide.
+
 ## ⚙️ How It Works
 
 - Single-instance management via Named Pipe — first launch starts the app, subsequent CLI calls send JSON through the pipe and exit immediately
@@ -145,7 +160,7 @@ Enable desired events in the settings window to automatically register hooks.
 | **Notification Sound** | ✅ | ❌ | ✅ | ❌ | ✅ |
 | **Auto Update** | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **Mobile Notifications** | ❌ | ✅ (via ntfy) | ❌ | ❌ | ✅ |
-| **Multi AI Tool Support** | Claude Code · Codex CLI | Claude · Copilot · Gemini · Codex, etc. | Claude Code | Claude Code | Universal |
+| **Multi AI Tool Support** | Claude Code · Codex CLI · Copilot | Claude · Copilot · Gemini · Codex, etc. | Claude Code | Claude Code | Universal |
 | **Language** | Rust + TypeScript | C++ | Rust | PowerShell | Shell (curl) |
 
 > ¹ **Smart Notifications**: Skip notification if terminal is already focused + auto-dismiss when terminal regains focus

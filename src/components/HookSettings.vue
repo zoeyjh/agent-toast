@@ -6,6 +6,9 @@ import { useI18n } from "vue-i18n";
 import { Bell, Bot, MessageSquare, MoreHorizontal, RefreshCw, Star, Wrench } from "lucide-vue-next";
 import claudeLogo from "../assets/claude.svg";
 import openaiLogo from "../assets/openai.svg";
+import copilotLogo from "../assets/copilot.png";
+import { ref } from "vue";
+import { openUrl } from "@tauri-apps/plugin-opener";
 import type { HookConfig } from "../types";
 
 const { t, locale } = useI18n();
@@ -79,6 +82,15 @@ const groupLabel = (g: HookGroup) =>
 
 function isEnabled(key: string): boolean {
   return !!(config.value as any)[key + "_enabled"];
+}
+
+const copilotCmdCopied = ref(false);
+const copilotCmd = "agent-toast.exe --source copilot --event task_complete --pid $PID";
+
+function copyCopilotCmd() {
+  navigator.clipboard.writeText(copilotCmd);
+  copilotCmdCopied.value = true;
+  setTimeout(() => { copilotCmdCopied.value = false; }, 2000);
 }
 </script>
 
@@ -194,9 +206,48 @@ function isEnabled(key: string): boolean {
       </div>
     </div>
 
+    <!-- Copilot Section -->
+    <div class="anim-item flex flex-col gap-1.5" style="animation-delay: 270ms">
+      <div class="flex items-center gap-1.5 px-1">
+        <img :src="copilotLogo" class="size-3 object-contain opacity-70" alt="" />
+        <span class="text-xs font-semibold uppercase tracking-[0.08em] text-section-codex">
+          {{ t("hooks.copilot_section") }}
+        </span>
+      </div>
+      <div class="rounded-[12px] border border-border overflow-hidden bg-card">
+        <div class="px-3.5 py-3 flex flex-col gap-2.5">
+          <p class="text-xs text-muted-foreground leading-relaxed">{{ t("hooks.copilot_hint") }}</p>
+          <div class="flex flex-col gap-1">
+            <span class="text-[11px] font-medium text-muted-foreground/70 uppercase tracking-[0.06em]">
+              {{ t("hooks.copilot_cmd_label") }}
+            </span>
+            <div class="flex items-center gap-2">
+              <code class="flex-1 text-xs font-mono bg-muted/60 border border-border rounded-[8px] px-2.5 py-1.5 text-foreground/80 truncate select-all">
+                {{ copilotCmd }}
+              </code>
+              <button
+                type="button"
+                class="shrink-0 text-xs px-2.5 py-1.5 rounded-[8px] border border-border bg-muted/40 hover:bg-muted/70 transition-colors duration-100 text-muted-foreground hover:text-foreground"
+                @click="copyCopilotCmd"
+              >
+                {{ copilotCmdCopied ? "✓" : t("remote.snippet.copyBtn") }}
+              </button>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="self-start text-xs text-muted-foreground/70 hover:text-foreground transition-colors duration-100 flex items-center gap-1"
+            @click="openUrl('https://github.com/hopoduck/agent-toast/blob/main/docs/copilot-integration.md')"
+          >
+            {{ t("hooks.copilot_docs_link") }}
+          </button>
+        </div>
+      </div>
+    </div>
+
     <p
       class="anim-item text-xs text-muted-foreground px-3 py-2 bg-muted/50 border border-border rounded-[12px]"
-      style="animation-delay: 280ms"
+      style="animation-delay: 310ms"
     >
       {{ t("hooks.notice") }}
     </p>

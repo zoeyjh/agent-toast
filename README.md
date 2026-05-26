@@ -40,6 +40,7 @@
 | ---------------------------------------------------- | ---------------------------------- |
 | [Claude Code](https://www.anthropic.com/claude-code) | Anthropic의 AI 코딩 어시스턴트     |
 | [Codex CLI](https://openai.com/codex/)               | OpenAI의 터미널 기반 코딩 에이전트 |
+| [GitHub Copilot CLI](https://cli.github.com/)        | GitHub의 AI 코딩 어시스턴트 (셸 래퍼로 연동) |
 
 ## 📥 설치
 
@@ -124,6 +125,20 @@ agent-toast.exe --setup
 | Claude Code | `~/.claude/settings.json` |
 | Codex CLI   | `~/.codex/config.toml`    |
 
+### GitHub Copilot CLI 연동
+
+Copilot CLI는 내장 hook이 없으므로 PowerShell 래퍼 함수를 사용합니다.
+
+```powershell
+# $PROFILE에 추가
+function copilot {
+    gh copilot @args
+    agent-toast.exe --source copilot --event task_complete --pid $PID
+}
+```
+
+자세한 설정 방법은 [docs/copilot-integration.md](docs/copilot-integration.md)를 참고하세요.
+
 ## ⚙️ 작동 원리
 
 - Named Pipe로 단일 인스턴스 관리 — 최초 실행 시 앱을 띄우고, 이후 CLI 호출은 파이프로 JSON 전송 후 즉시 종료
@@ -145,7 +160,7 @@ agent-toast.exe --setup
 | **알림 사운드** | ✅ | ❌ | ✅ | ❌ | ✅ |
 | **자동 업데이트** | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **모바일 알림** | ❌ | ✅ (ntfy 연동) | ❌ | ❌ | ✅ |
-| **다중 AI 도구 지원** | Claude Code · Codex CLI | Claude · Copilot · Gemini · Codex 등 | Claude Code | Claude Code | 범용 |
+| **다중 AI 도구 지원** | Claude Code · Codex CLI · Copilot | Claude · Copilot · Gemini · Codex 등 | Claude Code | Claude Code | 범용 |
 | **언어** | Rust + TypeScript | C++ | Rust | PowerShell | Shell (curl) |
 
 > ¹ **스마트 알림**: 터미널이 이미 포커스 중이면 알림 생략 + 터미널 복귀 시 알림 자동 소멸

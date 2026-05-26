@@ -114,10 +114,14 @@
     "claude_code_section": "Claude Code",
     "codex_section": "Codex",
     "codex_name": "Codex notify",
-    "codex_desc": "Notify on agent turn complete"
+    "codex_desc": "Notify on agent turn complete",
+    "copilot_section": "GitHub Copilot",
+    "copilot_hint": "Copilot CLI has no built-in hook system. Add the command below to a shell wrapper function to integrate manually.",
+    "copilot_cmd_label": "Notify command",
+    "copilot_docs_link": "Full setup guide →"
   },
   "about": {
-    "description": "Agent Toast is a Windows app that displays desktop notifications when events occur in Claude Code (or Codex CLI), such as task completion or user input required.",
+    "description": "Agent Toast is a Windows app that displays desktop notifications when events occur in AI coding tools such as Claude Code, Codex CLI, or GitHub Copilot — for events like task completion or user input required.",
     "features_title": "Key Features",
     "feature_notify_title": "Smart Notifications",
     "feature_notify_desc": "Never miss important events like task completion, permission requests, or input prompts.",
