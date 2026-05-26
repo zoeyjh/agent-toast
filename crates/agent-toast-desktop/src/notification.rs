@@ -175,12 +175,13 @@ pub fn show_notification(
         }
         let (mut hwnd, _) = found.unwrap_or((0, 0));
 
-        // If the found window has an empty title, it's likely a hidden conhost window
-        // (Windows 11 default terminal architecture). Try to find the real terminal window.
-        if hwnd != 0 && win32::get_window_title(hwnd).is_empty() {
+        // If no window was found, or the found window has an empty title (hidden conhost),
+        // try to find the real terminal window. Copilot CLI runs via ConPTY so the process
+        // tree does NOT include WindowsTerminal.exe, leaving hwnd=0 without this fallback.
+        if hwnd == 0 || win32::get_window_title(hwnd).is_empty() {
             if let Some(console_hwnd) = win32::find_console_window(request.pid, hwnd) {
                 log::debug!(
-                    "[DEBUG] Replacing empty-title source_hwnd={} with console_hwnd={}",
+                    "[DEBUG] Replacing source_hwnd={} with console_hwnd={}",
                     hwnd,
                     console_hwnd
                 );
