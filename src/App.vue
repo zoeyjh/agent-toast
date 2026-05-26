@@ -9,6 +9,7 @@ import { computed, onMounted, ref, type Component } from "vue";
 import { useI18n } from "vue-i18n";
 import claudeLogo from "./assets/claude.svg";
 import openaiLogo from "./assets/openai.svg";
+import copilotLogo from "./assets/copilot.png";
 import type { NotificationData } from "./types";
 
 const { t, locale } = useI18n();
@@ -37,6 +38,7 @@ function startDismissTimer() {
 }
 
 const isCodex = computed(() => notification.value?.source === "codex");
+const isCopilot = computed(() => notification.value?.source === "copilot");
 
 const isRemote = computed(() => !!notification.value?.hostname);
 const showHostname = computed(
@@ -76,7 +78,9 @@ const eventIconMap: Record<EventType, Component> = {
 
 const eventIcon = computed(() => eventIconMap[eventType.value]);
 
-const sourceLogo = computed(() => (isCodex.value ? openaiLogo : claudeLogo));
+const sourceLogo = computed(() =>
+  isCopilot.value ? copilotLogo : isCodex.value ? openaiLogo : claudeLogo,
+);
 
 const isUpdateAvailable = computed(
   () => notification.value?.source === "updater" && notification.value?.event_display === "update_available",
